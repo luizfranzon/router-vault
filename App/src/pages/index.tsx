@@ -106,7 +106,7 @@ export default function Home() {
               </span>
             </div>
           </div>
-          <p className="font-bold text-center flex-block gap-2 mt-4">
+          <p className="font-bold flex items-center justify-center gap-2 text-center flex-block mt-4">
             Configurado por:{' '}
             <span className="font-normal">{router?.configuredBy}</span> em:{' '}
             <span className="font-normal">

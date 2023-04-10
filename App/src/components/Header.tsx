@@ -3,6 +3,7 @@ import { FormEvent, useState } from 'react'
 
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { TriggerAddRouterButton } from './TriggerAddRouterButton'
 
 export type Router = {
   id: string
@@ -52,6 +53,7 @@ export function Header({ setRouter, setShowCard }: HeaderProps) {
         <span className="text-purple-1 gap-2 flex">
           Vault <Database size={36} weight="bold" />
         </span>
+        <TriggerAddRouterButton />
       </h1>
       <form
         onSubmit={handleRouterSearch}
