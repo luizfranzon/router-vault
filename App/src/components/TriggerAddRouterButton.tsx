@@ -1,7 +1,34 @@
 import * as Dialog from '@radix-ui/react-dialog'
+import axios from 'axios'
 import { PlusCircle } from 'phosphor-react'
+import { FormEvent } from 'react'
+import { toast } from 'react-toastify'
 
 export function TriggerAddRouterButton() {
+  function handleFormSubmit(event: FormEvent) {
+    event.preventDefault()
+    const formData = new FormData(event.target as HTMLFormElement)
+    const data = Object.fromEntries(formData)
+
+    axios.post('api/add', {
+      routerModel: data.routerModel,
+      macAddress: data.macAddress,
+      cableDownloadSpeed: data.cableDownloadSpeed,
+      cableUploadSpeed: data.cableUploadSpeed,
+      wifiDownloadSpeed2G: data.wifiDownloadSpeed2G,
+      wifiUploadSpeed2G: data.wifiUploadSpeed2G,
+      wifiDownloadSpeed5G: data.wifiDownloadSpeed5G,
+      wifiUploadSpeed5G: data.wifiUploadSpeed5G,
+      receivePower: data.receivePower,
+      transmitPower: data.transmitPower,
+      configuredBy: data.configuredBy,
+    })
+    notify()
+    window.location.reload()
+  }
+
+  const notify = () => toast('Roteador adicionado com sucesso!')
+
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>
@@ -16,6 +43,7 @@ export function TriggerAddRouterButton() {
             action="/api/add"
             method="POST"
             className="flex flex-col items-center py-7"
+            onSubmit={handleFormSubmit}
           >
             <p className="font-bold text-xl">Adicionar novo equipamento</p>
 
@@ -24,14 +52,21 @@ export function TriggerAddRouterButton() {
                 <label className="ml-1" htmlFor="routerModel">
                   Modelo:
                 </label>
-                <input
-                  className="bg-[#262626] rounded-lg text-lg p-2 border-2 border-very-dark-gray focus:outline-none focus:border-purple-1"
-                  type="text"
+                <select
+                  className="bg-[#262626] rounded-lg text-lg w-[270px] p-[10px] border-2 border-very-dark-gray focus:outline-none focus:border-purple-1"
                   name="routerModel"
                   id="routerModel"
-                  placeholder="Mercusys AC12G"
+                  placeholder="Selecione um valor"
                   required
-                />
+                >
+                  <option>Selecione um valor</option>
+                  <option value="Mercusys AC12G">Mercusys AC12G</option>
+                  <option value="FW323FAC">FW323FAC</option>
+                  <option value="Huawei-G8145V5-V2">Huawei-G8145V5-V2</option>
+                  <option value="Intelbras-121AC">Intelbras-121AC</option>
+                  <option value="Intelbras-RG1200">Intelbras-RG1200</option>
+                  <option value="Unee-MP-X421RQ-F">Unee-MP-X421RQ-F</option>
+                </select>
               </div>
 
               <div className="flex flex-col gap-1">
@@ -171,14 +206,17 @@ export function TriggerAddRouterButton() {
                 <label className="ml-1" htmlFor="configuredBy">
                   Configurado por:
                 </label>
-                <input
-                  className="bg-[#262626] rounded-lg text-lg p-2 border-2 border-very-dark-gray focus:outline-none focus:border-purple-1"
-                  type="text"
+                <select
+                  className="bg-[#262626] rounded-lg text-lg w-[270px] p-[10px] border-2 border-very-dark-gray focus:outline-none focus:border-purple-1"
                   name="configuredBy"
                   id="configuredBy"
                   placeholder="Luiz"
                   required
-                />
+                >
+                  <option value="Luiz">Luiz</option>
+                  <option value="Fabrício">Fabrício</option>
+                  <option value="Fabrício">Felipe</option>
+                </select>
               </div>
               <button className="flex items-center justify-center gap-2 text-sm bg-[#1E6F9F] w-28 h-[50px] rounded-lg font-bold hover:bg-[#115379] transition-colors">
                 Salvar
