@@ -31,13 +31,13 @@ export default function Home() {
           <div className="p-6 flex flex-col items-center bg-[#262626] max-w-[736px] m-auto mt-28 rounded-lg ju">
             <div className="flex flex-col items-center">
               <h2 className="text-2xl font-bold">
-                MAC:
+                MAC:{' '}
                 <span className="font-normal select-all">
                   {router?.macAddress}
                 </span>
               </h2>
               <span className="font-bold">
-                Modelo:
+                Modelo:{' '}
                 <span className="font-normal">{router?.routerModel}</span>
               </span>
             </div>
