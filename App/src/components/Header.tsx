@@ -15,8 +15,6 @@ export type Router = {
   wifiUploadSpeed2G: number
   wifiDownloadSpeed5G: number
   wifiUploadSpeed5G: number
-  receivePower: number
-  transmitPower: number
   configuredAt: string
   configuredBy: string
 }
@@ -51,7 +49,10 @@ export function Header({ setRouter, setShowCard }: HeaderProps) {
       <h1 className="mt-3 flex gap-2 text-4xl text-light-blue font-extrabold">
         Router
         <span className="text-purple-1 gap-2 flex">
-          Vault <Database size={36} weight="bold" />
+          Vault{' '}
+          <a target="_blank" href={'/api/list'} rel="noreferrer">
+            <Database size={36} weight="bold" />
+          </a>
         </span>
         <TriggerAddRouterButton />
       </h1>

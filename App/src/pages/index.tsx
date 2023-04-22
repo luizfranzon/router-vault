@@ -16,8 +16,6 @@ export default function Home() {
     wifiUploadSpeed2G: 0,
     wifiDownloadSpeed5G: 0,
     wifiUploadSpeed5G: 0,
-    receivePower: 0,
-    transmitPower: 0,
     configuredAt: '',
     configuredBy: '',
   })
@@ -93,20 +91,6 @@ export default function Home() {
                   </span>
                 </div>
               </div>
-            </div>
-            <div className="flex gap-3 mt-8">
-              <span>
-                <span className="font-bold">
-                  Rx:
-                  <span className="font-normal">{router?.receivePower}</span>
-                </span>
-              </span>
-              <span>
-                <span className="font-bold">
-                  Tx:
-                  <span className="font-normal">{router?.transmitPower}</span>
-                </span>
-              </span>
             </div>
           </div>
           <p className="font-bold flex items-center justify-center gap-2 text-center flex-block mt-4">

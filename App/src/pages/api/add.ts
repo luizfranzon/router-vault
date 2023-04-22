@@ -16,11 +16,10 @@ export default async function handler(
     wifiUploadSpeed2G,
     wifiDownloadSpeed5G,
     wifiUploadSpeed5G,
-    receivePower,
-    transmitPower,
     configuredBy,
   } = req.body
 
+  // eslint-disable-next-line no-unused-vars
   const router = await prisma.router.create({
     data: {
       routerModel,
@@ -31,14 +30,12 @@ export default async function handler(
       wifiUploadSpeed2G: Number(wifiUploadSpeed2G),
       wifiDownloadSpeed5G: Number(wifiDownloadSpeed5G),
       wifiUploadSpeed5G: Number(wifiUploadSpeed5G),
-      receivePower: Number(receivePower),
-      transmitPower: Number(transmitPower),
       configuredBy,
       configuredAt: new Date(),
     },
   })
   res.status(200).json({
     Message: 'Equipamento adicionado com sucesso.',
-    Data: router,
+    created: true,
   })
 }

@@ -4,30 +4,35 @@ import { PlusCircle } from 'phosphor-react'
 import { FormEvent } from 'react'
 import { toast } from 'react-toastify'
 
+const notify = () => toast('Roteador adicionado com sucesso!')
+
 export function TriggerAddRouterButton() {
   function handleFormSubmit(event: FormEvent) {
     event.preventDefault()
     const formData = new FormData(event.target as HTMLFormElement)
     const data = Object.fromEntries(formData)
 
-    axios.post('api/add', {
-      routerModel: data.routerModel,
-      macAddress: data.macAddress,
-      cableDownloadSpeed: data.cableDownloadSpeed,
-      cableUploadSpeed: data.cableUploadSpeed,
-      wifiDownloadSpeed2G: data.wifiDownloadSpeed2G,
-      wifiUploadSpeed2G: data.wifiUploadSpeed2G,
-      wifiDownloadSpeed5G: data.wifiDownloadSpeed5G,
-      wifiUploadSpeed5G: data.wifiUploadSpeed5G,
-      receivePower: data.receivePower,
-      transmitPower: data.transmitPower,
-      configuredBy: data.configuredBy,
-    })
-    notify()
-    window.location.reload()
+    axios
+      .post('api/add', {
+        routerModel: data.routerModel,
+        macAddress: data.macAddress,
+        cableDownloadSpeed: data.cableDownloadSpeed,
+        cableUploadSpeed: data.cableUploadSpeed,
+        wifiDownloadSpeed2G: data.wifiDownloadSpeed2G,
+        wifiUploadSpeed2G: data.wifiUploadSpeed2G,
+        wifiDownloadSpeed5G: data.wifiDownloadSpeed5G,
+        wifiUploadSpeed5G: data.wifiUploadSpeed5G,
+        configuredBy: data.configuredBy,
+      })
+      .then((response) => {
+        if (response.data.created === true) {
+          notify()
+          setTimeout(() => {
+            window.location.reload()
+          }, 2000)
+        }
+      })
   }
-
-  const notify = () => toast('Roteador adicionado com sucesso!')
 
   return (
     <Dialog.Root>
@@ -45,28 +50,31 @@ export function TriggerAddRouterButton() {
             className="flex flex-col items-center py-7"
             onSubmit={handleFormSubmit}
           >
-            <p className="font-bold text-xl">Adicionar novo equipamento</p>
+            <p className="font-bold -mt-2 text-2xl">
+              Adicionar um novo equipamento
+            </p>
 
             <div className="mt-10 flex items-center gap-4">
               <div className="flex flex-col gap-1">
                 <label className="ml-1" htmlFor="routerModel">
                   Modelo:
                 </label>
-                <select
-                  className="bg-[#262626] rounded-lg text-lg w-[270px] p-[10px] border-2 border-very-dark-gray focus:outline-none focus:border-purple-1"
+                <input
+                  className="bg-[#262626] rounded-lg text-lg p-2 border-2 border-very-dark-gray focus:outline-none focus:border-purple-1"
                   name="routerModel"
                   id="routerModel"
-                  placeholder="Selecione um valor"
+                  placeholder="Mercusys AC12G"
+                  list="routers"
                   required
-                >
-                  <option>Selecione um valor</option>
+                />
+                <datalist id="routers">
                   <option value="Mercusys AC12G">Mercusys AC12G</option>
                   <option value="FW323FAC">FW323FAC</option>
                   <option value="Huawei-G8145V5-V2">Huawei-G8145V5-V2</option>
                   <option value="Intelbras-121AC">Intelbras-121AC</option>
                   <option value="Intelbras-RG1200">Intelbras-RG1200</option>
                   <option value="Unee-MP-X421RQ-F">Unee-MP-X421RQ-F</option>
-                </select>
+                </datalist>
               </div>
 
               <div className="flex flex-col gap-1">
@@ -84,35 +92,6 @@ export function TriggerAddRouterButton() {
               </div>
             </div>
 
-            <div className="mt-4 flex items-center gap-4">
-              <div className="flex flex-col gap-1">
-                <label className="ml-1" htmlFor="cableDownloadSpeed">
-                  Download (Cabo):
-                </label>
-                <input
-                  className="bg-[#262626] rounded-lg text-lg p-2 border-2 border-very-dark-gray focus:outline-none focus:border-purple-1"
-                  type="number"
-                  name="cableDownloadSpeed"
-                  id="cableDownloadSpeed"
-                  placeholder="000"
-                  required
-                />
-              </div>
-
-              <div className="flex flex-col gap-1">
-                <label className="ml-1" htmlFor="cableUploadSpeed">
-                  Upload (Cabo):
-                </label>
-                <input
-                  className="bg-[#262626] rounded-lg text-lg p-2 border-2 border-very-dark-gray focus:outline-none focus:border-purple-1"
-                  type="number"
-                  name="cableUploadSpeed"
-                  id="cableUploadSpeed"
-                  placeholder="000"
-                  required
-                />
-              </div>
-            </div>
             <div className="mt-4 flex items-center gap-4">
               <div className="flex flex-col gap-1">
                 <label className="ml-1" htmlFor="wifiDownloadSpeed2G">
@@ -174,28 +153,28 @@ export function TriggerAddRouterButton() {
             </div>
             <div className="mt-4 flex items-center gap-4">
               <div className="flex flex-col gap-1">
-                <label className="ml-1" htmlFor="receivePower">
-                  Rx:
+                <label className="ml-1" htmlFor="cableDownloadSpeed">
+                  Download (Cabo):
                 </label>
                 <input
                   className="bg-[#262626] rounded-lg text-lg p-2 border-2 border-very-dark-gray focus:outline-none focus:border-purple-1"
                   type="number"
-                  name="receivePower"
-                  id="receivePower"
+                  name="cableDownloadSpeed"
+                  id="cableDownloadSpeed"
                   placeholder="000"
                   required
                 />
               </div>
 
               <div className="flex flex-col gap-1">
-                <label className="ml-1" htmlFor="transmitPower">
-                  Tx:
+                <label className="ml-1" htmlFor="cableUploadSpeed">
+                  Upload (Cabo):
                 </label>
                 <input
                   className="bg-[#262626] rounded-lg text-lg p-2 border-2 border-very-dark-gray focus:outline-none focus:border-purple-1"
                   type="number"
-                  name="transmitPower"
-                  id="transmitPower"
+                  name="cableUploadSpeed"
+                  id="cableUploadSpeed"
                   placeholder="000"
                   required
                 />
@@ -215,10 +194,11 @@ export function TriggerAddRouterButton() {
                 >
                   <option value="Luiz">Luiz</option>
                   <option value="Fabrício">Fabrício</option>
-                  <option value="Fabrício">Felipe</option>
+                  <option value="Felipe">Felipe</option>
+                  <option value="Marina">Marina</option>
                 </select>
               </div>
-              <button className="flex items-center justify-center gap-2 text-sm bg-[#1E6F9F] w-28 h-[50px] rounded-lg font-bold hover:bg-[#115379] transition-colors">
+              <button className="flex items-center justify-center gap-2 text-sm bg-[#1E6F9F] w-40 h-[50px] rounded-lg font-bold hover:bg-[#115379] transition-colors">
                 Salvar
               </button>
             </div>

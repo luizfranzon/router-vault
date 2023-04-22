@@ -20,8 +20,6 @@ model Router {
   wifiUploadSpeed2G   Float
   wifiDownloadSpeed5G Float
   wifiUploadSpeed5G   Float
-  receivePower        Float
-  transmitPower       Float
   configuredAt        DateTime
   configuredBy        String
 }
