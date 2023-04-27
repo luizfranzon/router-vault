@@ -14,6 +14,7 @@ model Router {
   id                  String   @id @default(uuid())
   routerModel         String
   macAddress          String   @unique
+  client              String?
   cableDownloadSpeed  Float
   cableUploadSpeed    Float
   wifiDownloadSpeed2G Float
