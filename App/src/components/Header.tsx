@@ -4,6 +4,7 @@ import { FormEvent, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { TriggerAddRouterButton } from './TriggerAddRouterButton'
+import Link from 'next/link'
 
 export type Router = {
   id: string
@@ -27,6 +28,10 @@ type HeaderProps = {
 export function Header({ setRouter, setShowCard }: HeaderProps) {
   const [macAddress, setMacAddress] = useState('')
 
+  function upperCase(str: any) {
+    return str.toUpperCase()
+  }
+
   function handleRouterSearch(event: FormEvent) {
     event.preventDefault()
     fetch(`/api/${macAddress}`)
@@ -46,7 +51,7 @@ export function Header({ setRouter, setShowCard }: HeaderProps) {
 
   return (
     <header className="relative flex flex-col items-center bg-very-dark-gray justify-center h-44">
-      <h1 className="mt-3 flex gap-2 text-4xl text-light-blue font-extrabold">
+      <h1 className="mt-12 flex gap-2 text-4xl text-light-blue font-extrabold">
         Router
         <span className="text-purple-1 gap-2 flex">
           Vault{' '}
@@ -58,22 +63,27 @@ export function Header({ setRouter, setShowCard }: HeaderProps) {
       </h1>
       <form
         onSubmit={handleRouterSearch}
-        className="relative top-[60px] flex items-center gap-2"
+        className="relative top-[60px] flex flex-col"
         action=""
       >
-        <input
-          className="bg-[#262626] rounded-lg text-lg h-16 p-4 border-2 border-very-dark-gray focus:outline-none focus:border-purple-1"
-          type="text"
-          placeholder="Endereço MAC"
-          name="macAddress"
-          id="mac-address"
-          maxLength={17}
-          onChange={(event) => setMacAddress(event.target.value)}
-          required
-        />
-        <button className="flex items-center justify-center gap-2 text-sm bg-[#1E6F9F] w-28 h-[90%] rounded-lg font-bold hover:bg-[#115379] transition-colors">
-          Buscar <MagnifyingGlass size={20} weight="bold" />
-        </button>
+        <div className="flex items-center justify-center gap-2">
+          <input
+            className="bg-[#262626] transition-colors rounded-lg text-lg h-16 p-4 border-2 border-very-dark-gray focus:outline-none focus:border-purple-1"
+            type="text"
+            placeholder="Endereço MAC"
+            name="macAddress"
+            id="mac-address"
+            maxLength={17}
+            onChange={(event) => setMacAddress(upperCase(event.target.value))}
+            required
+          />
+          <button className="flex items-center justify-center gap-2 text-sm bg-[#1E6F9F] w-28 h-[90%] rounded-lg font-bold hover:bg-[#115379] transition-colors">
+            Buscar <MagnifyingGlass size={20} weight="bold" />
+          </button>
+        </div>
+        <Link href={'/karina'} className="underline mt-4 text-center">
+          Pesquisar por cliente
+        </Link>
       </form>
       <ToastContainer
         toastClassName={() =>
