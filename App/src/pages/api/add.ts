@@ -23,7 +23,7 @@ export default async function handler(
   const router = await prisma.router.create({
     data: {
       routerModel,
-      macAddress,
+      macAddress: macAddress.toUpperCase(),
       cableDownloadSpeed: Number(cableDownloadSpeed),
       cableUploadSpeed: Number(cableUploadSpeed),
       wifiDownloadSpeed2G: Number(wifiDownloadSpeed2G),
