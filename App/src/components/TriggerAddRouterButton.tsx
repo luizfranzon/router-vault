@@ -1,13 +1,19 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import axios from 'axios'
-import { PlusCircle } from 'phosphor-react'
-import { FormEvent } from 'react'
+import { PlusCircle, X } from 'phosphor-react'
+import { FormEvent, useState } from 'react'
 import { toast } from 'react-toastify'
 
 const notify = () => toast('Roteador adicionado com sucesso!')
 
+function upperCase(str: any) {
+  return str.toUpperCase()
+}
+
 export function TriggerAddRouterButton() {
-  function handleFormSubmit(event: FormEvent) {
+  const [open, setOpen] = useState(false)
+
+  function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const formData = new FormData(event.target as HTMLFormElement)
     const data = Object.fromEntries(formData)
@@ -15,7 +21,7 @@ export function TriggerAddRouterButton() {
     axios
       .post('api/add', {
         routerModel: data.routerModel,
-        macAddress: data.macAddress,
+        macAddress: upperCase(data.macAddress),
         cableDownloadSpeed: data.cableDownloadSpeed,
         cableUploadSpeed: data.cableUploadSpeed,
         wifiDownloadSpeed2G: data.wifiDownloadSpeed2G,
@@ -27,15 +33,13 @@ export function TriggerAddRouterButton() {
       .then((response) => {
         if (response.data.created === true) {
           notify()
-          setTimeout(() => {
-            window.location.reload()
-          }, 2000)
+          setOpen(false)
         }
       })
   }
 
   return (
-    <Dialog.Root>
+    <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
         <button className="bg-[#1e6f9f] hover:bg-[#115379] transition-colors p-2 rounded-md fixed top-4 right-4">
           <PlusCircle width="bold" size={38} color="white" />
@@ -43,13 +47,22 @@ export function TriggerAddRouterButton() {
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="bg-black/60 inset-0 fixed" />
-        <Dialog.Content className="fixed top-10 right-1/2 translate-x-2/4 bg-[#1a1a1a] py-7 max-w-2xl w-full rounded-md shadow-md">
+        <Dialog.Content
+          onInteractOutside={(event) => event?.preventDefault()}
+          className="fixed top-10 right-1/2 translate-x-2/4 bg-[#1a1a1a] py-7 max-w-2xl w-full rounded-md shadow-md"
+        >
           <form
             action="/api/add"
             method="POST"
-            className="flex flex-col items-center py-7"
+            className="flex relative flex-col items-center py-7"
             onSubmit={handleFormSubmit}
+            id="routerForm"
           >
+            <X
+              size={40}
+              className="absolute -top-4 right-4 cursor-pointer p-1"
+              onClick={() => setOpen(false)}
+            />
             <p className="font-bold -mt-2 text-2xl">
               Adicionar um novo equipamento
             </p>
@@ -60,7 +73,7 @@ export function TriggerAddRouterButton() {
                   Modelo:
                 </label>
                 <input
-                  className="bg-[#262626] rounded-lg text-lg p-2 border-2 border-very-dark-gray focus:outline-none focus:border-purple-1"
+                  className="bg-[#262626] transition-colors rounded-lg text-lg p-2 border-2 border-very-dark-gray focus:outline-none focus:border-purple-1"
                   name="routerModel"
                   id="routerModel"
                   placeholder="Mercusys AC12G"
@@ -82,7 +95,7 @@ export function TriggerAddRouterButton() {
                   MAC:
                 </label>
                 <input
-                  className="bg-[#262626] rounded-lg text-lg p-2 border-2 border-very-dark-gray focus:outline-none focus:border-purple-1"
+                  className="bg-[#262626] transition-colors rounded-lg text-lg p-2 border-2 border-very-dark-gray focus:outline-none focus:border-purple-1"
                   type="text"
                   name="macAddress"
                   id="macAddress"
@@ -95,10 +108,11 @@ export function TriggerAddRouterButton() {
             <div className="mt-4 flex items-center gap-4">
               <div className="flex flex-col gap-1">
                 <label className="ml-1" htmlFor="wifiDownloadSpeed2G">
-                  Download (Wifi 2G):
+                  <span className="text-[#6AFFF3] font-bold">Download</span>{' '}
+                  (Wi-Fi 2G):
                 </label>
                 <input
-                  className="bg-[#262626] rounded-lg text-lg p-2 border-2 border-very-dark-gray focus:outline-none focus:border-purple-1"
+                  className="bg-[#262626] transition-colors rounded-lg text-lg p-2 border-2 border-very-dark-gray focus:outline-none focus:border-purple-1"
                   type="number"
                   name="wifiDownloadSpeed2G"
                   id="wifiDownloadSpeed2G"
@@ -109,10 +123,11 @@ export function TriggerAddRouterButton() {
 
               <div className="flex flex-col gap-1">
                 <label className="ml-1" htmlFor="wifiUploadSpeed2G">
-                  Upload (Wifi 2G):
+                  <span className="text-[#BF71FF] font-bold">Upload</span>{' '}
+                  (Wi-Fi 2G):
                 </label>
                 <input
-                  className="bg-[#262626] rounded-lg text-lg p-2 border-2 border-very-dark-gray focus:outline-none focus:border-purple-1"
+                  className="bg-[#262626] transition-colors rounded-lg text-lg p-2 border-2 border-very-dark-gray focus:outline-none focus:border-purple-1"
                   type="number"
                   name="wifiUploadSpeed2G"
                   id="wifiUploadSpeed2G"
@@ -125,7 +140,8 @@ export function TriggerAddRouterButton() {
             <div className="mt-4 flex items-center gap-4">
               <div className="flex flex-col gap-1">
                 <label className="ml-1" htmlFor="wifiDownloadSpeed5G">
-                  Download (Wifi 5G):
+                  <span className="text-[#6AFFF3] font-bold">Download</span>{' '}
+                  (Wi-Fi 5G):
                 </label>
                 <input
                   className="bg-[#262626] rounded-lg text-lg p-2 border-2 border-very-dark-gray focus:outline-none focus:border-purple-1"
@@ -139,10 +155,11 @@ export function TriggerAddRouterButton() {
 
               <div className="flex flex-col gap-1">
                 <label className="ml-1" htmlFor="wifiUploadSpeed5G">
-                  Upload (Wifi 5G):
+                  <span className="text-[#BF71FF] font-bold">Upload</span>{' '}
+                  (Wi-Fi 5G):
                 </label>
                 <input
-                  className="bg-[#262626] rounded-lg text-lg p-2 border-2 border-very-dark-gray focus:outline-none focus:border-purple-1"
+                  className="bg-[#262626] transition-colors rounded-lg text-lg p-2 border-2 border-very-dark-gray focus:outline-none focus:border-purple-1"
                   type="number"
                   name="wifiUploadSpeed5G"
                   id="wifiUploadSpeed5G"
@@ -154,10 +171,11 @@ export function TriggerAddRouterButton() {
             <div className="mt-4 flex items-center gap-4">
               <div className="flex flex-col gap-1">
                 <label className="ml-1" htmlFor="cableDownloadSpeed">
-                  Download (Cabo):
+                  <span className="text-[#6AFFF3] font-bold">Download</span>{' '}
+                  (Cabo):
                 </label>
                 <input
-                  className="bg-[#262626] rounded-lg text-lg p-2 border-2 border-very-dark-gray focus:outline-none focus:border-purple-1"
+                  className="bg-[#262626] transition-colors rounded-lg text-lg p-2 border-2 border-very-dark-gray focus:outline-none focus:border-purple-1"
                   type="number"
                   name="cableDownloadSpeed"
                   id="cableDownloadSpeed"
@@ -168,10 +186,11 @@ export function TriggerAddRouterButton() {
 
               <div className="flex flex-col gap-1">
                 <label className="ml-1" htmlFor="cableUploadSpeed">
-                  Upload (Cabo):
+                  <span className="text-[#BF71FF] font-bold">Upload</span>{' '}
+                  (Cabo):
                 </label>
                 <input
-                  className="bg-[#262626] rounded-lg text-lg p-2 border-2 border-very-dark-gray focus:outline-none focus:border-purple-1"
+                  className="bg-[#262626] transition-colors rounded-lg text-lg p-2 border-2 border-very-dark-gray focus:outline-none focus:border-purple-1"
                   type="number"
                   name="cableUploadSpeed"
                   id="cableUploadSpeed"
@@ -186,7 +205,7 @@ export function TriggerAddRouterButton() {
                   Configurado por:
                 </label>
                 <select
-                  className="bg-[#262626] rounded-lg text-lg w-[270px] p-[10px] border-2 border-very-dark-gray focus:outline-none focus:border-purple-1"
+                  className="bg-[#262626] transition-colors rounded-lg text-lg w-[270px] p-[10px] border-2 border-very-dark-gray focus:outline-none focus:border-purple-1"
                   name="configuredBy"
                   id="configuredBy"
                   placeholder="Luiz"
