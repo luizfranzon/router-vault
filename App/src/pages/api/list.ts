@@ -7,6 +7,12 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const routersList = await prisma.router.findMany()
+  const routersList = await prisma.router.findMany({
+    select: {
+      routerModel: true,
+      macAddress: true,
+      configuredBy: true,
+    },
+  })
   res.status(200).json(routersList)
 }
