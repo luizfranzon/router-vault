@@ -35,6 +35,12 @@ export function TriggerAddRouterButton() {
           notify()
           setOpen(false)
         }
+        console.log(response)
+      })
+      .catch((error) => {
+        if (error.response) {
+          alert(error.response.data.message)
+        }
       })
   }
 

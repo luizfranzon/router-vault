@@ -1,4 +1,4 @@
-import { Database, MagnifyingGlass } from 'phosphor-react'
+import { Database, MagnifyingGlass, Link as LinkSVG } from 'phosphor-react'
 import { FormEvent, useState } from 'react'
 
 import { ToastContainer, toast } from 'react-toastify'
@@ -81,8 +81,12 @@ export function Header({ setRouter, setShowCard }: HeaderProps) {
             Buscar <MagnifyingGlass size={20} weight="bold" />
           </button>
         </div>
-        <Link href={'/karina'} className="underline mt-4 text-center">
-          Pesquisar por cliente
+        <Link
+          title="Buscar equipamento pelo nome do cliente"
+          href={'/financeiro'}
+          className="underline mt-4 text-center flex items-center justify-center gap-1"
+        >
+          Pesquisar por cliente <LinkSVG size={18} color="#ffffff" />
         </Link>
       </form>
       <ToastContainer

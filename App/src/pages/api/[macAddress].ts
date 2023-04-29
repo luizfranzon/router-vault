@@ -15,7 +15,7 @@ export default async function handler(
   })
   if (routerData === null) {
     res.status(200).json({
-      error: 'No router found with that MAC address',
+      error: 'Roteador não encontrado',
     })
   } else {
     res.status(200).json(routerData)
