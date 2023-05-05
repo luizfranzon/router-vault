@@ -219,7 +219,7 @@ export function TriggerAddRouterButton() {
                 >
                   <option value="Luiz">Luiz</option>
                   <option value="Fabrício">Fabrício</option>
-                  <option value="Felipe">Felipe</option>
+                  <option value="Thiago">Thiago</option>
                   <option value="Marina">Marina</option>
                 </select>
               </div>
