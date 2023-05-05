@@ -1,5 +1,6 @@
 import { Database, MagnifyingGlass, Link as LinkSVG } from 'phosphor-react'
 import { FormEvent, useState } from 'react'
+import { upperCase } from '../utils/upperCase'
 
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -27,10 +28,6 @@ type HeaderProps = {
 
 export function Header({ setRouter, setShowCard }: HeaderProps) {
   const [macAddress, setMacAddress] = useState('')
-
-  function upperCase(str: any) {
-    return str.toUpperCase()
-  }
 
   function handleRouterSearch(event: FormEvent) {
     event.preventDefault()
