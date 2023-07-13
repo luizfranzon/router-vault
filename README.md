@@ -30,7 +30,7 @@
 
 **1- Clone this repository:**
 ```bash
-git clone git clone https://github.com/luizfranzon/router-vault.git && cd App
+git clone https://github.com/luizfranzon/router-vault.git && cd App
 ```
 **2- Install dependencies:**
 ```bash
