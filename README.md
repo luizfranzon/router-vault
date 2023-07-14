@@ -10,8 +10,7 @@
 <h3 align="center">Router Vault</h3>
 
   <p align="center">
-    A router data base to save the tested equipament at my work.
-
+    A router database to save the tested network devices at my work.
 </div>
 
 <img src=".github/screenshot.png">
